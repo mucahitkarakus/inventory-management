@@ -21,7 +21,6 @@ export default function RootLayout({
         <DashboardWrapper>
           {children}
         </DashboardWrapper>
-
       </body>
     </html>
   );
