@@ -118,11 +118,6 @@ const products = [
   }
 ];
 
-
-const CreateProductModals: React.FC<CreateProductModalProps> = ({ isOpen, onClose, onCreate }) => {
-  console.log(onCreate);
-};
-
 return (
     <div className="mx-auto pb-5 w-full">
       {/* SEARCH BAR */}
@@ -173,11 +168,10 @@ return (
           </tbody>
         </table>
       </div>
-      <CreateProductModal
+      {/* <CreateProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onCreate={CreateProductModals}
-      />
+      /> */}
     </div>
   );
 };
