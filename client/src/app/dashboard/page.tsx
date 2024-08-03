@@ -1,5 +1,6 @@
 "use client";
 
+import CardExpenseSummary from "./CardExpenseSummary";
 import CardPopularProducts from "./CardPopularProducts";
 import CardPurchaseSummary from "./CardPurchaseSummary";
 import CardSalesSummary from "./CardSalesSummary";
@@ -10,6 +11,7 @@ const Dashboard = () => {
       <CardPopularProducts />
       <CardSalesSummary />
       <CardPurchaseSummary />
+      <CardExpenseSummary />
     </div>
   );
 };
