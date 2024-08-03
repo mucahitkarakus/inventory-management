@@ -1,16 +1,25 @@
 "use client";
 
+import { useCreateProductMutation, useGetProductsQuery } from "@/state/api";
 import { PlusCircleIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
 import Header from "@/app/(components)/Header";
+import Rating from "@/app/(components)/Rating";
 import CreateProductModal from "./CreateProductModal";
+import Image from "next/image";
 
+type ProductFormData = {
+  name: string;
+  price: number;
+  stockQuantity: number;
+  rating: number;
+};
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-const products = [
+ const product = [
   {
     productId: "d35623ee-bef6-42b2-8776-2f99f8bb4782",
     name: "Globe Fimbry",
@@ -19,7 +28,7 @@ const products = [
     stockQuantity: 20
   },
   {
-    productId:"8ac1ac77-7358-425e-be16-0bdde9f02e59",
+    productId: "8ac1ac77-7358-425e-be16-0bdde9f02e59",
     name: "Smooth Phlox",
     price: 699.99,
     rating: 4.0,
@@ -33,7 +42,7 @@ const products = [
     stockQuantity: 50
   },
   {
-    productId:"af84cc12-4fea-4f58-aece-f2ce92ca9580",
+    productId: "af84cc12-4fea-4f58-aece-f2ce92ca9580",
     name: "Thladiantha",
     price: 249.99,
     rating: 4.1,
@@ -75,7 +84,7 @@ const products = [
     stockQuantity: 40
   },
   {
-    productId:  "8a8391b2-b4ac-4847-b652-66ffd8d65875",
+    productId: "8a8391b2-b4ac-4847-b652-66ffd8d65875",
     name: "Router",
     price: 149.99,
     rating: 4.4,
@@ -118,7 +127,8 @@ const products = [
   }
 ];
 
-return (
+
+  return (
     <div className="mx-auto pb-5 w-full">
       {/* SEARCH BAR */}
       <div className="mb-6">
@@ -132,6 +142,8 @@ return (
           />
         </div>
       </div>
+
+      {/* HEADER BAR */}
       <div className="flex justify-between items-center mb-6">
         <Header name="Products" />
         <button
@@ -143,34 +155,44 @@ return (
         </button>
       </div>
 
-      {/* BODY TABLE */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Id</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {products.map((product) => (
-              <tr key={product.productId}>
-                <td className="px-6 py-4 whitespace-nowrap">
-                 {product.productId}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{product.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap">${product.price.toFixed(2)}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{product.stockQuantity}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg-grid-cols-3 gap-10 justify-between">
+        {product?.map((product) => (
+            <div
+              key={product.productId}
+              className="border shadow rounded-md p-4 max-w-full w-full mx-auto"
+            >
+              <div className="flex flex-col items-center">
+                <Image
+                  src={`https://s3-inventorymanagement.s3.us-east-2.amazonaws.com/product${
+                    Math.floor(Math.random() * 3) + 1
+                  }.png`}
+                  alt={product.name}
+                  width={150}
+                  height={150}
+                  className="mb-3 rounded-2xl w-36 h-36"
+                />
+                <h3 className="text-lg text-gray-900 font-semibold">
+                  {product.name}
+                </h3>
+                <p className="text-gray-800">${product.price.toFixed(2)}</p>
+                <div className="text-sm text-gray-600 mt-1">
+                  Stock: {product.stockQuantity}
+                </div>
+                {product.rating && (
+                  <div className="flex items-center mt-2">
+                    <Rating rating={product.rating} />
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        }
       </div>
+
       {/* <CreateProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onCreate={handleCreateProduct}
       /> */}
     </div>
   );
